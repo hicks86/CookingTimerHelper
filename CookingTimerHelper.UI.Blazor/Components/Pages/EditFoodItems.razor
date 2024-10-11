@@ -1,0 +1,139 @@
+﻿@page "/editfooditems/{id}"
+@rendermode InteractiveServer
+
+@inject Csla.Blazor.State.StateManager StateManager
+@inject Csla.IDataPortal<MenuRootList> menuEditPortal
+@inject Csla.Blazor.ViewModel<MenuRootList> vm
+@inject NavigationManager NavigationManager
+
+<h1>Edit Menu</h1>
+
+<p>This component demonstrates editing a BusinessBase-derived object.</p>
+
+<p style="background-color:red;color:white">@vm.ViewModelErrorText</p>
+
+
+
+@if (vm.Model == null)
+{
+    <AuthorizeView>
+        <Authorized>
+            <p>Loading Menu...</p>
+        </Authorized>
+        <NotAuthorized>
+            <p>Not authorized</p>
+        </NotAuthorized>
+    </AuthorizeView>
+}
+else
+{
+    <p>
+        <a href="listmenus">List of menu</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Id</td>
+                <td>@vm.Model.Id</td>
+            </tr>
+            @if (vm.GetPropertyInfo(() => vm.Model.Name).CanRead)
+            {
+                <tr>
+                    <td>@(vm.GetPropertyInfo(() => vm.Model.Name).FriendlyName)</td>
+                    <td>
+                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.Name))" />
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>Name length</td>
+                <td>@vm.Model.Name.Length</td>
+            </tr>
+            <tr>
+                <td>IsNew</td>
+                <td>@vm.Model.IsNew</td>
+            </tr>
+            <tr>
+                <td>IsSavable</td>
+                <td>@vm.Model.IsSavable</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (vm.Model.IsSavable)
+    {
+        <h3>Add food items</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Time to cook</th>
+                    <th>Temperature (Celsius) </th>
+                    <th>Preparation time</th>
+                    <th>Device</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Name))" />
+                    </th>
+                    <th>
+                        <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.TimeToCook))" />
+                    </th>
+                    <th>
+                        <DoubleTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Temperature))" />
+                    </th>
+                    <th>
+                        <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.PreparationTime))" />
+                    </th>
+                    <th>
+                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Device))" />
+                    </th>
+                    <th>
+                        <button @onclick="OnItemAdd" disabled="@(!vm.Model.IsSavable)">Add food to menu</button>
+                    </th>
+                </tr>
+                @if (vm.Model.FoodItems.Count > 0)
+                {
+                    @foreach (var item in vm.Model.FoodItems)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.TimeToCook</td>
+                            <td>@item.Temperature</td>
+                            <td>@item.PreparationTime</td>
+                            <td>@item.Device</td>
+                            @* <td><a href="editmenu/@item.Id">Edit</a></td> *@
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        @* <td><a href="editmenu/@item.Id">Edit</a></td> *@
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+    }
+
+    <button @onclick="vm.SaveAsync" disabled="@(!vm.Model.IsSavable)">Save menu</button>
+}
+
+@code {
+
+}

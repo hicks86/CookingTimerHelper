@@ -1,0 +1,17 @@
+﻿@page "/"
+@inject Csla.Blazor.State.StateManager StateManager
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, CSLA Developer!</h1>
+
+Welcome to your new app.
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        //Every page must initialize the state manager
+        await StateManager.InitializeAsync();
+    }
+}
