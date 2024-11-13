@@ -2,8 +2,8 @@
 @rendermode InteractiveServer
 
 @inject Csla.Blazor.State.StateManager StateManager
-@inject Csla.IDataPortal<MenuRootList> menuEditPortal
-@inject Csla.Blazor.ViewModel<MenuRootList> vm
+@inject Csla.IDataPortal<MenuEdit> menuEditPortal
+@inject Csla.Blazor.ViewModel<MenuEdit> vm
 @inject NavigationManager NavigationManager
 
 <h1>Edit Menu</h1>
@@ -30,45 +30,10 @@ else
     <p>
         <a href="listmenus">List of menu</a>
     </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Id</td>
-                <td>@vm.Model.Id</td>
-            </tr>
-            @if (vm.GetPropertyInfo(() => vm.Model.Name).CanRead)
-            {
-                <tr>
-                    <td>@(vm.GetPropertyInfo(() => vm.Model.Name).FriendlyName)</td>
-                    <td>
-                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.Name))" />
-                    </td>
-                </tr>
-            }
-            <tr>
-                <td>Name length</td>
-                <td>@vm.Model.Name.Length</td>
-            </tr>
-            <tr>
-                <td>IsNew</td>
-                <td>@vm.Model.IsNew</td>
-            </tr>
-            <tr>
-                <td>IsSavable</td>
-                <td>@vm.Model.IsSavable</td>
-            </tr>
-        </tbody>
-    </table>
 
-    @if (vm.Model.IsSavable)
-    {
-        <h3>Add food items</h3>
+
+
+        <h3>Add food items to "@vm.Model.Name" </h3>
 
         <table>
             <thead>
@@ -82,24 +47,24 @@ else
             </thead>
             <tbody>
                 <tr>
-                    <th>
-                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Name))" />
-                    </th>
-                    <th>
-                        <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.TimeToCook))" />
-                    </th>
-                    <th>
-                        <DoubleTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Temperature))" />
-                    </th>
-                    <th>
-                        <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.PreparationTime))" />
-                    </th>
-                    <th>
-                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Device))" />
-                    </th>
-                    <th>
-                        <button @onclick="OnItemAdd" disabled="@(!vm.Model.IsSavable)">Add food to menu</button>
-                    </th>
+@*                      <th>
+                         <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Name))" />
+                     </th>
+                     <th>
+                         <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.TimeToCook))" />
+                     </th>
+                     <th>
+                         <DoubleTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Temperature))" />
+                     </th>
+                     <th>
+                         <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.PreparationTime))" />
+                     </th>
+                     <th>
+                         <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Device))" />
+                     </th>
+                     <th>
+                         <button @onclick="OnItemAdd" disabled="@(!vm.Model.IsSavable)">Add food to menu</button>
+                     </th> *@
                 </tr>
                 @if (vm.Model.FoodItems.Count > 0)
                 {
@@ -129,11 +94,32 @@ else
             </tbody>
         </table>
         <br />
-    }
 
     <button @onclick="vm.SaveAsync" disabled="@(!vm.Model.IsSavable)">Save menu</button>
 }
 
 @code {
+    [Parameter]
+    public string? id { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        // Every page _must_ initialize the state manager
+        await StateManager.InitializeAsync();
 
+        vm.Saved += () => NavigationManager.NavigateTo("listmenus");
+        vm.ModelPropertyChanged += async (s, e) => await InvokeAsync(() => StateHasChanged());
+
+        if (string.IsNullOrWhiteSpace(id))
+            await vm.RefreshAsync(() => menuEditPortal.CreateAsync());
+        else
+            await vm.RefreshAsync(() => menuEditPortal.FetchAsync(int.Parse(id)));
+
+    }
+
+    private void OnItemAdd(MouseEventArgs e)
+    {
+        // var resource = vm.Model.CurrentFoodItem;
+
+        // vm.Model.FoodItems.Add(resource);
+    }
 }

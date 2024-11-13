@@ -1,4 +1,5 @@
 ﻿using CookingTimerHelper.Dal.Dto;
+using System.Net.Http.Headers;
 
 namespace CookingTimerHelper.Dal.DataAccessLayer
 {
@@ -15,26 +16,18 @@ namespace CookingTimerHelper.Dal.DataAccessLayer
         }
 
         // Get all FoodItemDtos for a specific Menu
-        public List<FoodItemDto> GetFoodItems(MenuDto menu)
+        public List<FoodItemDto> GetFoodItems(int id)
         {
-            if (database.TryGetValue(menu, out var foodItems))
-            {
-                return foodItems;
-            }
-
-            return new List<FoodItemDto>();
+            return database
+                    .Where(kvp => kvp.Key.Id == id)
+                    .Select(kvp => kvp.Value)
+                    .FirstOrDefault([]);
         }
 
         // Get a specific FoodItem by Id
-        public FoodItemDto GetFoodItem(MenuDto menu, int foodItemId)
-        {
-            if (database.TryGetValue(menu, out var foodItems))
-            {
-                return foodItems.FirstOrDefault(f => f.Id == foodItemId);
-            }
-
-            return null;
-        }
+        public FoodItemDto GetFoodItem(int menuId, int foodItemId)
+            => GetFoodItems(menuId)
+                    .Find(x => x.Id == foodItemId);
 
         // Add a FoodItem to a Menu
         public void AddFoodItem(MenuDto menu, FoodItemDto foodItem)

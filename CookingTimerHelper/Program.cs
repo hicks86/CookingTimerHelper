@@ -21,9 +21,9 @@ public static class Program
 
         Console.WriteLine("Add your food items. Press CTRL+S to finish.");
 
-        var menu = dpFactory.GetPortal<MenuRootList>().Create();
+        var menu = dpFactory.GetPortal<MenuFood>().Create();
 
-        var foodItemPortal = dpFactory.GetPortal<FoodItemChild>();
+        var foodItemPortal = dpFactory.GetPortal<FoodItemEdit>();
 
         while (true)
         {

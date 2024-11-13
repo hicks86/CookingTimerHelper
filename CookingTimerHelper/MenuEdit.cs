@@ -30,15 +30,8 @@ namespace CookingTimerHelper
             set { SetProperty(NameProperty, value); }
         }
 
-        public static readonly PropertyInfo<FoodItemChild> CurrentFoodItemProperty = RegisterProperty<FoodItemChild>(nameof(CurrentFoodItem));
-        public FoodItemChild CurrentFoodItem
-        {
-            get => GetProperty(CurrentFoodItemProperty);
-            set => SetProperty(CurrentFoodItemProperty, value);
-        }
-
-        public static readonly PropertyInfo<MenuRootList> FoodItemsProperty = RegisterProperty<MenuRootList>(nameof(FoodItems));
-        public MenuRootList FoodItems
+        public static readonly PropertyInfo<MenuFood> FoodItemsProperty = RegisterProperty<MenuFood>(nameof(FoodItems));
+        public MenuFood FoodItems
         {
             get { return GetProperty(FoodItemsProperty); }
             set { SetProperty(FoodItemsProperty, value); }
@@ -69,13 +62,11 @@ namespace CookingTimerHelper
         #region Data Access
 
         [Create]
-        protected void Create([Inject]IChildDataPortal<MenuRootList> childDataPortal, [Inject] IChildDataPortal<FoodItemChild> foodItemchildDataPortal)
+        protected void Create([Inject]IChildDataPortal<MenuFood> childDataPortal, [Inject] IChildDataPortal<FoodItemEdit> foodItemchildDataPortal)
         {
             Id = -1;
             Name = "";
             FoodItems = childDataPortal.CreateChild();
-            CurrentFoodItem = foodItemchildDataPortal.CreateChild();
-            base.Child_Create();
         }
 
         [Insert]
@@ -90,42 +81,29 @@ namespace CookingTimerHelper
             Id = dal.AddMenu(dto);
         }
 
-        [InsertChild]
-        private void InsertChild([Inject] IFoodMenuDal dal, [Inject] IChildDataPortal<MenuRootList> childDataPortal)
-        {
-            FoodItems.Add(CurrentFoodItem);
-        }
-
-
-        [UpdateChild]
-        private void UpdateChild([Inject] IFoodMenuDal dal, [Inject]IChildDataPortal<MenuRootList> childDataPortal)
-        {
-
-        }
-
-        [Update]
+		[Update]
         protected void Update([Inject]IFoodMenuDal dal)
         {
-            //var menu = new MenuDto { Id = Id, Name = Name };
+            var menu = new MenuDto { Id = Id, Name = Name };
 
-            //foreach (FoodItemChild item in FoodItems)
-            //{
-            //    var foodItem = new FoodItemDto
-            //    {
-            //        Name = item.Name,
-            //        TimeToCook = item.TimeToCook,
-            //        PreparationTime = item.PreparationTime,
-            //        Device = item.Device,
-            //        Temperature = item.Temperature,
-            //        TemperatureUnit = TemperatureUnitEnum.Celius
-            //    };
+            foreach (var item in FoodItems)
+            {
+                var foodItem = new FoodItemDto
+                {
+                    Name = item.Name,
+                    TimeToCook = item.TimeToCook,
+                    PreparationTime = item.PreparationTime,
+                    Device = item.Device,
+                    Temperature = item.Temperature,
+                    TemperatureUnit = TemperatureUnitEnum.Celius
+                };
 
-            //    dal.AddFoodItem(menu, foodItem);
-            //}
+                dal.AddFoodItem(menu, foodItem);
+            }
         }
 
         [Fetch]
-        private void Fetch([Inject]IFoodMenuDal menuDal, int id)
+        private void Fetch([Inject]IFoodMenuDal menuDal, [Inject]IChildDataPortal<MenuFood> menuFoodDataPortal, [Inject]IChildDataPortal<FoodItemEdit> foodItemDataPortal, int id)
         {
             var data = menuDal.GetMenu(id);
 
@@ -133,6 +111,7 @@ namespace CookingTimerHelper
             {
                 Id = data.Id;
                 Name = data.Name;
+                FoodItems = menuFoodDataPortal.FetchChild(data.Id);
             }
 
         }

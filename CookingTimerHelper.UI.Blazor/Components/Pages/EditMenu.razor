@@ -66,73 +66,8 @@ else
       </tr>
     </tbody>
   </table>
-
-    @if (vm.Model.IsSavable)
-    {
-        <h3>Add food items</h3>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Time to cook</th>
-                    <th>Temperature (Celsius) </th>
-                    <th>Preparation time</th>
-                    <th>Device</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>
-                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Name))" />
-                    </th>
-                    <th>
-                        <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.TimeToCook))" />
-                    </th>
-                    <th>
-                        <DoubleTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Temperature))" />
-                    </th>
-                    <th>
-                        <TimeSpanTextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.PreparationTime))" />
-                    </th>
-                    <th>
-                        <TextInput Property="@(vm.GetPropertyInfo(() => vm.Model.CurrentFoodItem.Device))" />
-                    </th>
-                    <th>
-                        <button @onclick="OnItemAdd" disabled="@(!vm.Model.IsSavable)">Add food to menu</button>
-                    </th>
-                </tr>
-                @if (vm.Model.FoodItems.Count > 0)
-                {
-                    @foreach (var item in vm.Model.FoodItems)
-                    {
-                        <tr>
-                            <td>@item.Name</td>
-                            <td>@item.TimeToCook</td>
-                            <td>@item.Temperature</td>
-                            <td>@item.PreparationTime</td>
-                            <td>@item.Device</td>
-                            @* <td><a href="editmenu/@item.Id">Edit</a></td> *@
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        @* <td><a href="editmenu/@item.Id">Edit</a></td> *@
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <br />
-    }
   
-  <button @onclick="vm.SaveAsync" disabled="@(!vm.Model.IsSavable)">Save menu</button>
+  <button @onclick="SaveMenu" disabled="@(!vm.Model.IsSavable)">Save menu</button>
 }
 
 @code {
@@ -146,7 +81,7 @@ else
         // Every page _must_ initialize the state manager
         await StateManager.InitializeAsync();
 
-        vm.Saved += () => NavigationManager.NavigateTo("listmenus");
+        //vm.Saved += () => NavigationManager.NavigateTo("listmenus");
         vm.ModelPropertyChanged += async (s, e) => await InvokeAsync(() => StateHasChanged());
 
         if (string.IsNullOrWhiteSpace(id))
@@ -159,12 +94,13 @@ else
     private void OnInputChanged(ChangeEventArgs e)
     {
         // Force Blazor to re-render after input changes
+
         StateHasChanged();
     }
-
-    private void OnItemAdd(MouseEventArgs e)
+    private void SaveMenu(MouseEventArgs e)
     {
-        vm.Model.FoodItems.Add(vm.Model.CurrentFoodItem);
-        vm.Model.FoodItems = vm.Model.FoodItems.Save();
+        vm.Saved += () => NavigationManager.NavigateTo($"editfooditems/{vm.Model.Id}");
+
+        vm.SaveAsync();
     }
 }

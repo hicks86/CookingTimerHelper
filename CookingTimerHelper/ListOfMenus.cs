@@ -26,7 +26,7 @@ namespace CookingTimerHelper
             using (LoadListMode)
             {
                 var data = menuDal.GetAllMenuItems()
-                                  .Select(menu => (menu, menuDal.GetFoodItems(menu).Count))
+                                  .Select(menu => (menu, menuDal.GetFoodItems(menu.Id).Count))
                                   .Select(val => menuInfoPortal.FetchChild((val.menu, val.Count)));
 
                 AddRange(data);

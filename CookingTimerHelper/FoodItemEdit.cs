@@ -1,10 +1,13 @@
+using CookingTimerHelper.Dal.Dto;
 using Csla;
+using Csla.Properties;
 using System;
+using System.Data;
 
 namespace CookingTimerHelper.Biz
 {
     [Serializable]
-    public class FoodItemChild : BusinessBase<FoodItemChild>
+    public class FoodItemEdit : BusinessBase<FoodItemEdit>
     {
         #region Business Methods
 
@@ -75,7 +78,7 @@ namespace CookingTimerHelper.Biz
 
         #region Data Access
 
-        [CreateChild]
+        [CreateChild,Create]
         private void CreateChild()
         {
             Name = string.Empty;
@@ -83,18 +86,26 @@ namespace CookingTimerHelper.Biz
             Temperature = 0;
             PreparationTime = TimeSpan.Zero;
             Device = string.Empty;
+            MarkAsChild();
             base.Child_Create();
         }
 
-        //[Create]
-        //protected void Create(object criteria)
-        //{
-        //    var split = ((string)criteria).Split();
-        //    // TODO: load default values
-        //    // omit this override if you have no defaults to set
-        //    base.Child_Create();
-        //    MarkAsChild();
-        //}
+        [UpdateChild]
+        private void Update()
+        { }
+
+        [FetchChild]
+        private void Fetch(FoodItemDto data)
+        {
+            using (BypassPropertyChecks)
+            {
+                Name = data.Name;
+                TimeToCook = data.TimeToCook;
+                Temperature = Convert.ToInt32(data.Temperature);
+                PreparationTime = data.PreparationTime;
+                Device = data.Device;
+            }
+        }
 
         #endregion
     }
