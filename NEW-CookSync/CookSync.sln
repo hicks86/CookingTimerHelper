@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookSync", "CookSync\CookSync.csproj", "{32C8E9A7-4CA2-4E88-8C5B-489BD80D79D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{847D47D0-CECC-44CF-BA94-95695292730A}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookSync.Biz", "CookSync.Biz\CookSync.Biz.csproj", "{BF436983-B9DE-42E4-B4DD-18078021D04F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookSync.Dal", "CookSync.Dal\CookSync.Dal.csproj", "{B2BEA47D-1B7E-4DA3-9F93-61ADFE36DDF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32C8E9A7-4CA2-4E88-8C5B-489BD80D79D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C8E9A7-4CA2-4E88-8C5B-489BD80D79D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32C8E9A7-4CA2-4E88-8C5B-489BD80D79D1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{32C8E9A7-4CA2-4E88-8C5B-489BD80D79D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32C8E9A7-4CA2-4E88-8C5B-489BD80D79D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32C8E9A7-4CA2-4E88-8C5B-489BD80D79D1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BF436983-B9DE-42E4-B4DD-18078021D04F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF436983-B9DE-42E4-B4DD-18078021D04F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF436983-B9DE-42E4-B4DD-18078021D04F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF436983-B9DE-42E4-B4DD-18078021D04F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2BEA47D-1B7E-4DA3-9F93-61ADFE36DDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2BEA47D-1B7E-4DA3-9F93-61ADFE36DDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2BEA47D-1B7E-4DA3-9F93-61ADFE36DDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2BEA47D-1B7E-4DA3-9F93-61ADFE36DDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

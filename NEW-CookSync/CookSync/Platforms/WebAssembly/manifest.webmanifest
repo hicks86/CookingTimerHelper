@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "CookSync",
+  "display": "standalone",
+  "name": "CookSync",
+  "short_name": "CookSync",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

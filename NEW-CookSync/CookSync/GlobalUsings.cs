@@ -1,0 +1,15 @@
+﻿global using System.Collections.Immutable;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using CookSync.DataContracts;
+global using CookSync.DataContracts.Serialization;
+global using CookSync.Models;
+global using CookSync.Presentation;
+global using CookSync.Services.Caching;
+global using CookSync.Services.Endpoints;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;

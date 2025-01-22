@@ -1,7 +1,6 @@
-﻿using CookingTimerHelper.Dal.Dto;
-using System.Net.Http.Headers;
+using CookSync.Dal.Dto;
 
-namespace CookingTimerHelper.Dal.DataAccessLayer
+namespace CookSync.Dal.DataAccessLayer
 {
     public class InMemoryFoodMenuRepository : IFoodMenuDal
     {
@@ -109,7 +108,7 @@ namespace CookingTimerHelper.Dal.DataAccessLayer
                 database[menu] = new List<FoodItemDto>();
             }
 
-            foodItem.Id = database[menu].Any() 
+            foodItem.Id = database[menu].Any()
                         ? database[menu].Max(f => f.Id) + 1 : 1;  // Generate new ID
             database[menu].Add(foodItem);
         }
@@ -157,6 +156,19 @@ namespace CookingTimerHelper.Dal.DataAccessLayer
             }
 
             return menu.Id;
+        }
+
+        public void UpdateMenu(MenuDto menu)
+        {
+            if (database.Keys.Any(x => x.Id == menu.Id))
+            {
+                var existingMenu = database.Keys.FirstOrDefault(k => k.Id == menu.Id);
+                if (existingMenu != null)
+                {
+                    existingMenu.Name = menu.Name;
+                }
+            }
+
         }
 
         public List<MenuDto> GetAllMenuItems()

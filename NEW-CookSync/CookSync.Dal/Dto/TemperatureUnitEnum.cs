@@ -1,4 +1,4 @@
-﻿namespace CookingTimerHelper.Dal
+namespace CookSync.Dal.Dto
 {
     public enum TemperatureUnitEnum
     {

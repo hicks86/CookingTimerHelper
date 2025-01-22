@@ -1,10 +1,7 @@
-using CookingTimerHelper.Dal.Dto;
+using CookSync.Dal.Dto;
 using Csla;
-using Csla.Properties;
-using System;
-using System.Data;
 
-namespace CookingTimerHelper.Biz
+namespace CookSync.Biz
 {
     [Serializable]
     public class FoodItemEdit : BusinessBase<FoodItemEdit>
@@ -78,7 +75,7 @@ namespace CookingTimerHelper.Biz
 
         #region Data Access
 
-        [CreateChild,Create]
+        [CreateChild, Create]
         private void CreateChild()
         {
             Name = string.Empty;
