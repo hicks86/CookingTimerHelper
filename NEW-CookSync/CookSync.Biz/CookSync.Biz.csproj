@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CookSync.Dal\CookSync.Dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Rules\" />
+  </ItemGroup>
+
 </Project>

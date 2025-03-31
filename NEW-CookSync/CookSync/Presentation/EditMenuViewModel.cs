@@ -1,6 +1,5 @@
 using CookSync.Biz;
 using Csla;
-using static CookSync.Presentation.MainViewModel;
 
 namespace CookSync.Presentation;
 
@@ -44,6 +43,9 @@ public partial class EditMenuViewModel : ObservableObject
             if (MenuEdit.IsSavable)
             {
                 MenuEdit = await MenuEdit.SaveAsync(); 
+
+                await navigator.NavigateViewModelAsync<EditMenuFoodViewModel>(this, data: new MenuId(MenuEdit.Id));
+
             }
         }
         catch (Exception ex)

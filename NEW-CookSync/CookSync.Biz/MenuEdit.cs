@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using BusinessLibrary;
 using CookSync.Dal;
 using CookSync.Dal.Dto;
 using Csla;
@@ -40,8 +41,9 @@ namespace CookSync.Biz
         {
             // TODO: add validation rules
             base.AddBusinessRules();
-
-            //BusinessRules.AddRule(new Rule(IdProperty));
+            BusinessRules.AddRule(new InfoText(NameProperty, "Person name (required)"));
+            BusinessRules.AddRule(new CheckCase(NameProperty));
+            BusinessRules.AddRule(new NoZAllowed(NameProperty));
         }
 
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -60,7 +62,6 @@ namespace CookSync.Biz
         protected void Create([Inject] IChildDataPortal<MenuFood> childDataPortal, [Inject] IChildDataPortal<FoodItemEdit> foodItemchildDataPortal)
         {
             Id = -1;
-            Name = "";
             FoodItems = childDataPortal.CreateChild();
         }
 
