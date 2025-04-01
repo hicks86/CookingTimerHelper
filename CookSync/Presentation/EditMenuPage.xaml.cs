@@ -33,4 +33,9 @@ public sealed partial class EditMenuPage : Page
     {
         ViewModel?.RefreshData();
     }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

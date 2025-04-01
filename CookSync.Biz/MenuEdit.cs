@@ -41,9 +41,9 @@ namespace CookSync.Biz
         {
             // TODO: add validation rules
             base.AddBusinessRules();
-            BusinessRules.AddRule(new InfoText(NameProperty, "Person name (required)"));
-            BusinessRules.AddRule(new CheckCase(NameProperty));
-            BusinessRules.AddRule(new NoZAllowed(NameProperty));
+            //BusinessRules.AddRule(new InfoText(NameProperty, "Person name (required)"));
+            //BusinessRules.AddRule(new CheckCase(NameProperty));
+            //BusinessRules.AddRule(new NoZAllowed(NameProperty));
         }
 
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -63,6 +63,7 @@ namespace CookSync.Biz
         {
             Id = -1;
             FoodItems = childDataPortal.CreateChild();
+            BusinessRules.CheckRules();
         }
 
         [Insert]

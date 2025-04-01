@@ -76,7 +76,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="10">
                                 <Button Margin="10" Content="Back" Command="{x:Bind ViewModel.BackToHomeCommand}" />
-                                <Button Margin="10" Content="Save" Command="{x:Bind ViewModel.SaveMenuCommand}" IsEnabled="{x:Bind ViewModel.MenuEdit.IsSavable}" />
+                                <Button Margin="10" Content="Save"  Command="{x:Bind ViewModel.SaveMenuCommand, Mode=OneWay}" />
                             </StackPanel>
                         </StackPanel>
                     </Grid>

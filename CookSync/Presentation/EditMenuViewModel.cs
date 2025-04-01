@@ -33,7 +33,7 @@ public partial class EditMenuViewModel : ObservableObject
         Title = "Hello";
         BackToHomeCommand = new AsyncRelayCommand(BackToHomeView);
 
-        SaveMenuCommand = new AsyncRelayCommand(SaveMenuView);
+        SaveMenuCommand = new AsyncRelayCommand(SaveMenuView, canExecute: () => MenuEdit?.IsSavable ?? false);
     }
 
     private async Task SaveMenuView()
